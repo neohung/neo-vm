@@ -12,7 +12,7 @@ threads = int(os.environ.get('GUNICORN_THREADS', '1'))
 forwarded_allow_ips = '*' 
 secure_scheme_headers = { 'X-Forwarded-Proto': 'https' }
 
-host = os.environ.get('NEOIP', '127.0.0.1')
+host = os.environ.get('NEOIP', '0.0.0.0')
 port = os.environ.get('NEOPORT', '8080')
 
 # cmd = 'gunicorn -b %s:%d -w 2 -k gevent app:application' % (host, int(port))

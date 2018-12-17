@@ -60,8 +60,13 @@ def receive(ws):
     bep.register(ws)
     while not ws.closed:
         message = ws.receive()
-        print("receiver say: %s" % (message))
-        ws.send("server got: "+message[::-1])
+        if (message == "cam"):
+            print("receiver say: %s" % (message))
+            ws.send("server got: "+message[::-1])
+            p = redis_server.pubsub()
+            p.subscribe("cam")
+            message = p.get_message()
+            print(message)
         gevent.sleep(0.1)
 
 bep=BackEndProcess()

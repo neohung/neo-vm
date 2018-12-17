@@ -1,6 +1,6 @@
 import os
 import time
-import datetime
+from datetime import datetime, timedelta
 from flask import Flask
 
 REDIS_URL="redis://127.0.0.1:6379/0"
@@ -12,7 +12,7 @@ application = Flask(__name__)
 
 @application.route("/")
 def hello():
-    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = (datetime.now()+timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
     return now+": "+REDIS_URL
 
 if __name__ == "__main__":

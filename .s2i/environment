@@ -1,1 +1,2 @@
 APP_CONFIG=neoconfig.py
+APP_FILE=neo.py

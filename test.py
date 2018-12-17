@@ -19,7 +19,7 @@ class BackEndProcess(object):
     def __init__(self):
         self.receivers = list()
     def register(self,data):
-        print "register client"
+        print("register client")
         self.receivers.append(data)
     def run(self):
         while True:
@@ -36,7 +36,7 @@ class BackEndProcess(object):
         try:
             ws.send(message)
         except Exception:
-            print "Can't send data, Try to remove receiver"
+            print("Can't send data, Try to remove receiver")
             self.receivers.remove(ws)
 
 
@@ -58,7 +58,7 @@ def receive(ws):
     bep.register(ws)
     while not ws.closed:
         message = ws.receive()
-        print "receiver say: %s" % (message)
+        print("receiver say: %s" % (message))
         ws.send("server got: "+message[::-1])
         gevent.sleep(0.1)
 

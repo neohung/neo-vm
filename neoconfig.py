@@ -17,7 +17,7 @@ port = os.environ.get('NEOVM_SERVICE_PORT', '8080')
 
 # cmd = 'gunicorn -b %s:%d -w 2 -k gevent app:application' % (host, int(port))
 #cmd = 'gunicorn -b %s:%d -k "geventwebsocket.gunicorn.workers.GeventWebSocketWorker" test:app' % (host, int(port))
-cmd = 'gunicorn -k flask_sockets.worker test:app'
+cmd = 'gunicorn -w 2 -k flask_sockets.worker test:app'
 sys.argv = shlex.split(cmd)
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - - %(asctime)s %(message)s', datefmt='[%b %d %H:%M:%S]')
 os.chdir(os.path.abspath(os.path.dirname(__file__)))

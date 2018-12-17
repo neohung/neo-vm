@@ -12,8 +12,8 @@ threads = int(os.environ.get('GUNICORN_THREADS', '1'))
 forwarded_allow_ips = '*' 
 secure_scheme_headers = { 'X-Forwarded-Proto': 'https' }
 
-host = os.environ.get('OPENSHIFT_DIY_IP', '127.0.0.1')
-port = os.environ.get('OPENSHIFT_DIY_PORT', '8080')
+host = os.environ.get('OPENSHIFT_PYTHON_IP', '127.0.0.1')
+port = os.environ.get('OPENSHIFT_PYTHON_PORT', '8080')
 
 # cmd = 'gunicorn -b %s:%d -w 2 -k gevent app:application' % (host, int(port))
 cmd = 'gunicorn -b %s:%d -k "geventwebsocket.gunicorn.workers.GeventWebSocketWorker" test:app' % (host, int(port))

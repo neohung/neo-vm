@@ -1,3 +1,2 @@
-Flask==0.12.3
-Flask-Sockets==0.2.1
-numpy
+gunicorn
+Flask

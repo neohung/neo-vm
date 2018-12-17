@@ -13,7 +13,7 @@ forwarded_allow_ips = '*'
 secure_scheme_headers = { 'X-Forwarded-Proto': 'https' }
 
 host = os.environ.get('NEOIP', '127.0.0.1')
-port = os.environ.get('NEOPORT', '5000')
+port = os.environ.get('NEOPORT', '8080')
 
 # cmd = 'gunicorn -b %s:%d -w 2 -k gevent app:application' % (host, int(port))
 #cmd = 'gunicorn -b %s:%d -k "geventwebsocket.gunicorn.workers.GeventWebSocketWorker" test:app' % (host, int(port))

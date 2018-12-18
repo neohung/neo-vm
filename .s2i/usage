@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# inform the user how to use the image
+cat <<EOF
+=======================================
+=    USAGE EXAMPLE ====================
+=======================================
+EOF

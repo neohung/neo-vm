@@ -1,4 +1,4 @@
 #!/bin/bash
-
-# run the application
-/opt/application/run.sh
+#!/bin/bash
+echo "============================================Before running application"
+exec /usr/libexec/s2i/run

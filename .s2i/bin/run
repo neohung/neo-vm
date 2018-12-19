@@ -1,5 +1,9 @@
 #!/bin/bash
 echo "============================================Before running application"
-hash gunicorn
-
+ret=`hash gunicorn`
+echo "ret: [$ret]"
+echo "home: [$HOME]"
+setup_py=$(find "$HOME" -maxdepth 2 -type f -name 'setup.py' -print -quit)
+echo "setup_py: [$setup_py]"
+echo "============================================Before running application end"
 #exec /usr/libexec/s2i/run

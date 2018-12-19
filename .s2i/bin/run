@@ -26,6 +26,6 @@ echo "setup_py: [$setup_py]"
 echo "APP_CONFIG: [$APP_CONFIG]"
 echo "APP_MODULE: [$APP_MODULE]"
 #exec gunicorn "$APP_MODULE" --bind=0.0.0.0:8080 --access-logfile=- --config "$APP_CONFIG"
-exec gunicorn "test:app" --bind=0.0.0.0:8080 --access-logfile=- -k flask_sockets.worker --workers=2
+exec gunicorn "$APP_MODULE" --bind=0.0.0.0:8080 --access-logfile=- -k flask_sockets.worker --workers=2  --config "$APP_CONFIG"
 echo "============================================Before running application end"
 #exec /usr/libexec/s2i/run

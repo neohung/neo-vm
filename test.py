@@ -48,6 +48,7 @@ def index():
         return "POST"
     elif request.method == 'GET':
         #return render_template('index.html')
+        print("GET")
         now = (datetime.now()+timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
         return now+": TEST NEO"
 

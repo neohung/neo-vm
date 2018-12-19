@@ -5,5 +5,9 @@ echo "ret: [$ret]"
 echo "home: [$HOME]"
 setup_py=$(find "$HOME" -maxdepth 2 -type f -name 'setup.py' -print -quit)
 echo "setup_py: [$setup_py]"
+echo "APP_CONFIG: [$APP_CONFIG]"
+echo "APP_MODULE: [$APP_MODULE]"
+#exec gunicorn "$APP_MODULE" --bind=0.0.0.0:8080 --access-logfile=- --config "$APP_CONFIG"
+exec gunicorn "test:app" --bind=0.0.0.0:8080 --access-logfile=- -k flask_sockets.worker --workers=2
 echo "============================================Before running application end"
 #exec /usr/libexec/s2i/run

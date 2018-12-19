@@ -1,6 +1,24 @@
 #!/bin/bash
+source /opt/app-root/etc/generate_container_user
+
+set -e
+
+function is_gunicorn_installed() {
+  hash gunicorn &>/dev/null
+}
+
+function is_django_installed() {
+  python -c "import django" &>/dev/null
+}
+
 echo "============================================Before running application"
-ret=`hash gunicorn`
+if is_gunicorn_installed; then
+    echo "~~~ Detect gunicorn_installed ~~~"
+elif is_django_installed; then
+    echo "~~~ Detect django_installed ~~~"
+else
+    echo "~~~ No any web process installed ~~~"
+fi
 echo "ret: [$ret]"
 echo "home: [$HOME]"
 setup_py=$(find "$HOME" -maxdepth 2 -type f -name 'setup.py' -print -quit)

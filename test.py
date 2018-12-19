@@ -10,8 +10,8 @@ from datetime import datetime, timedelta
 
 
 REDIS_URL="redis://127.0.0.1:6379/0"
-if 'REDIS_URL' in os.environ:
-  REDIS_URL = os.environ['REDIS_URL']
+#if 'REDIS_URL' in os.environ:
+#  REDIS_URL = os.environ['REDIS_URL']
 
 app = Flask(__name__)
 sockets = Sockets(app)
@@ -68,6 +68,12 @@ def receive(ws):
             p.subscribe("cam")
             message = p.get_message()
             print(message)
+        if (message == "rsave"):
+            print("rsave")
+            redis_server.set('test', 'working')
+        if (message == "rload"):
+            print(redis_server.get('name'))
+            redis_server.set('test', 'working')
         gevent.sleep(0.1)
 
 bep=BackEndProcess()

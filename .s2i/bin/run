@@ -12,20 +12,27 @@ function is_django_installed() {
 }
 
 echo "============================================Before running application"
+echo "home: [$HOME]"
+echo "APP_CONFIG: [$APP_CONFIG]"
+echo "APP_MODULE: [$APP_MODULE]"
+
+if [ -f ]:
+
+if [ -f "/data/redis/sbin/redis-server" ] 
+then
+ echo "EXEC redis-server"
+ /data/redis/sbin/redis-server /data/redis/redis.conf &
+fi
+
 if is_gunicorn_installed; then
     echo "~~~ Detect gunicorn_installed ~~~"
+    exec gunicorn "$APP_MODULE" --bind=0.0.0.0:8080 --access-logfile=- -k flask_sockets.worker --workers=2  --config "$APP_CONFIG"
 elif is_django_installed; then
     echo "~~~ Detect django_installed ~~~"
+    echo "~~~ Not django script yet ~~~"
 else
     echo "~~~ No any web process installed ~~~"
 fi
-echo "ret: [$ret]"
-echo "home: [$HOME]"
-setup_py=$(find "$HOME" -maxdepth 2 -type f -name 'setup.py' -print -quit)
-echo "setup_py: [$setup_py]"
-echo "APP_CONFIG: [$APP_CONFIG]"
-echo "APP_MODULE: [$APP_MODULE]"
 #exec gunicorn "$APP_MODULE" --bind=0.0.0.0:8080 --access-logfile=- --config "$APP_CONFIG"
-exec gunicorn "$APP_MODULE" --bind=0.0.0.0:8080 --access-logfile=- -k flask_sockets.worker --workers=2  --config "$APP_CONFIG"
 echo "============================================Before running application end"
 #exec /usr/libexec/s2i/run

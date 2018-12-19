@@ -16,8 +16,6 @@ echo "home: [$HOME]"
 echo "APP_CONFIG: [$APP_CONFIG]"
 echo "APP_MODULE: [$APP_MODULE]"
 
-if [ -f ]:
-
 if [ -f "/data/redis/sbin/redis-server" ] 
 then
  echo "EXEC redis-server"

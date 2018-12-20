@@ -1,2 +1,2 @@
 APP_CONFIG=neoconfig.py
-APP_MODULE=test:app
+APP_MODULE=test2:app

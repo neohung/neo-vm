@@ -92,8 +92,8 @@ def receive(ws):
 bep=BackEndProcess()
 bep.start()
 
-if __name__ == "__main__":
-    from gevent import pywsgi
-    from geventwebsocket.handler import WebSocketHandler
-    server = pywsgi.WSGIServer(('', 8080), app, handler_class=WebSocketHandler)
-    server.serve_forever()
+#if __name__ == "__main__":
+#    from gevent import pywsgi
+#    from geventwebsocket.handler import WebSocketHandler
+#    server = pywsgi.WSGIServer(('', 8080), app, handler_class=WebSocketHandler)
+#    server.serve_forever()

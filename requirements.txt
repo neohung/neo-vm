@@ -1,6 +1,5 @@
 gunicorn
 Flask
-Flask-Sockets
 redis
 numpy
 line-bot-sdk==1.8.0

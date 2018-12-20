@@ -1,5 +1,9 @@
 gunicorn
 Flask
+Flask-Sockets
+gevent
+greenlet
+gunicorn
 redis
 numpy
 line-bot-sdk==1.8.0

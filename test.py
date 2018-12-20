@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 import json
 import gevent
@@ -52,7 +52,7 @@ def index():
         data = {'btn':0,'y':0,'x':0,'dx':0,'dy':0,'keycode': 0}
         return render_template('index.html',
                    title='Home',
-                   mouse_keyboard =data
+                   mouse_keyboard = data
                )
         #print("GET")
         #now = (datetime.now()+timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")

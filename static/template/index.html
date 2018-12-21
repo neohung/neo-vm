@@ -8,6 +8,20 @@
   </head>
   <body>
  <h1> {{title}} </h1>
+ {% if mouse_keyboard %}
+  <table id="myMouse_Keyboard" border = 1>
+  {% for key, value in mouse_keyboard.iteritems() %}
+    <tr>
+      <th> {{ key }} </th>
+      <td> {{ value }} </td>
+    </tr>
+  {% endfor %}
+  </table>
+  {% endif %}
+
+<canvas id="myCanvas" width="480" height="320" style="border:1px solid #d3d3d3;">
+</canvas>
+
 <p id="demo"></p>
 </body>
 <script type="text/javascript" src="static/js/application.js"></script>

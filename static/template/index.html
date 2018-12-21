@@ -21,8 +21,19 @@
 
 <canvas id="myCanvas" width="480" height="320" style="border:1px solid #d3d3d3;">
 </canvas>
+<p id="clock"></p>
+<section class="content">
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class=flashes>
+    {% for message in messages %}
+      {{ message }}<br>
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+</section>
 
-<p id="demo"></p>
 </body>
 <script type="text/javascript" src="static/js/application.js"></script>
 </html>

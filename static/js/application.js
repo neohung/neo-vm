@@ -101,7 +101,7 @@ function myDrawing()
 var myVar = setInterval(myTimer, 15);
 function myTimer() {
   var d = new Date();
-  document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+  document.getElementById("clock").innerHTML = d.toLocaleTimeString();
   //
   if("y" in mousePos){
   myMouseTable = document.getElementById("myMouse_Keyboard")

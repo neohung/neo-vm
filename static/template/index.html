@@ -23,18 +23,11 @@
 </canvas>
 
 <article>
-  <div id="holder">
-  </div> 
-
-  <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
-  <p id="filereader">File API & FileReader API not supported</p>
-  <p id="formdata">XHR2's FormData is not supported</p>
-  <p id="progress">XHR2's upload progress isn't supported</p>
-  <p>Upload progress: <progress id="uploadprogress" max="100" value="0">0</progress></p>
-  <p>Drag an image from your desktop on to the drop zone above to see the browser both render the preview, but also upload automatically to this server.</p>
+  <div id="holder" style="border: 10px dashed #ccc; border-color #000000; width: 300px; min-height: 300px; margin: 20px auto;">
+  </div>
+  <p id="upload" class="hidden"><label>SELECT<br><input type="file"></label></p> 
+  <p>BAR: <progress id="uploadprogress" max="100" value="0">0</progress></p>
 </article>
-
-
 
 <p id="clock"></p>
 <section class="content">
@@ -51,4 +44,111 @@
 
 </body>
 <script type="text/javascript" src="static/js/application.js"></script>
+<script>
+var holder = document.getElementById('holder')
+var tests = {
+      filereader: typeof FileReader != 'undefined',
+      formdata: !!window.FormData,
+      //dnd return true if draggable
+      dnd: 'draggable' in document.createElement('span'),
+      progress: "upload" in new XMLHttpRequest
+    }
+var progress = document.getElementById('uploadprogress')
+var fileupload = document.getElementById('upload');
+
+var acceptedTypes = {
+      'image/png': true,
+      'image/jpeg': true,
+      'image/gif': true
+    }
+
+if (tests.dnd) { 
+  holder.ondragenter = function () {  
+                        this.className = ''; 
+			this.style.backgroundColor = "#FFFFFF";
+                        this.style.borderColor = "#aaaaee";
+                        return false; 
+                      };
+
+  holder.ondragover = function () {  
+                        //this.className = 'hover'; 
+                        //this.style.backgroundColor = "#D93600";
+                        return false; 
+                      };
+  holder.ondragleave =  function () {
+                        this.className = '';
+                        this.style.backgroundColor = "#FFFFFF";
+                        this.style.borderColor = "#000000";
+
+                        return false; 
+                      };
+
+  holder.ondragend = function () {  console.log("ondragend");this.className = ''; return false; };
+  holder.ondrop = function (e) {
+    this.className = '';
+    e.preventDefault();
+    console.log(e.dataTransfer.files)
+    readfiles(e.dataTransfer.files);
+  }
+}
+
+fileupload.className = 'hidden';
+fileupload.querySelector('input').onchange = function () {
+  readfiles(this.files);
+}
+
+function readfiles(files) {
+  var formData = tests.formdata ? new FormData() : null;
+  for (var i = 0; i < files.length; i++) {
+    //if (tests.formdata) formData.append('filename', files[i]);
+    if (tests.formdata) formData.append('filecontent', files[i]);
+    previewfile(files[i]);
+  }
+  if (tests.formdata) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/');
+      xhr.onload = function() {
+        progress.value = progress.innerHTML = 100;
+      };
+ 
+     if (tests.progress) {
+        xhr.upload.onprogress = function (event) {
+          if (event.lengthComputable) {
+            var complete = (event.loaded / event.total * 100 | 0);
+            progress.value = progress.innerHTML = complete;
+          }
+        }
+      }
+
+      xhr.onreadystatechange = function () {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+          //
+        }
+      }
+
+      //xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+      xhr.send(formData);
+      
+  }
+
+}
+
+function previewfile(file) {
+  if (tests.filereader === true && acceptedTypes[file.type] === true) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+      var image = new Image();
+      image.src = event.target.result;
+      image.width = 250; // a fake resize
+      holder.appendChild(image);
+    };
+    //read file now
+    reader.readAsDataURL(file);
+  }  else {
+    holder.innerHTML += '<p>FileName [' + file.name + '] ' + (file.size ? (file.size/1024|0) + 'K' : '');
+  }
+}
+</script>
+
+
 </html>

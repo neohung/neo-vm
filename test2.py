@@ -4,7 +4,7 @@ import json
 import gevent
 import redis
 from gevent.queue import Queue
-from flask import Flask, render_template, send_from_directory, request, redirect, flash, url_for
+from flask import Flask, render_template, send_from_directory, request, redirect, flash, url_for,jsonify
 from flask_sockets import Sockets
 from datetime import datetime, timedelta
 
@@ -21,7 +21,10 @@ sockets = Sockets(app)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        return "POST"
+        print("GOT POST")
+        data = request.form["filecontent"]
+        print("GOT POST END")
+        return jsonify({'msg': 'success'})
     elif request.method == 'GET':
         data = {'btn':0,'y':0,'x':0,'dx':0,'dy':0,'keycode': 0}
         return render_template('index.html',

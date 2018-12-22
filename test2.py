@@ -21,12 +21,13 @@ sockets = Sockets(app)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+        data = request.get_data()
         #print("GOT POST")
         #result = request.form
         #data = request.form.get("filecontent",default="")
         #print(data)
         #file1 = request.files['file']
-        print(request.data)
+        print(data)
         #print(request.form.get("UUID"))
         return jsonify({'msg': 'success'})
     elif request.method == 'GET':

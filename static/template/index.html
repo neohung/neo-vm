@@ -101,7 +101,10 @@ function readfiles(files) {
   for (var i = 0; i < files.length; i++) {
     //console.log(files[i]);
     //if (tests.formdata) formData.append('filename', files[i]);
-    if (tests.formdata) formData.append('filecontent', files[i]);
+
+    //if (tests.formdata) formData.append('filecontent', files[i]);
+    var obj = { name: "John", age: 30, ffff: files[i] };
+    formData.append('filecontent', JSON.stringify(obj));
     previewfile(files[i]);
   }
   if (tests.formdata) {
@@ -131,11 +134,12 @@ function readfiles(files) {
       for (var key of formData.entries()) {
         console.log(key[0] + ', ' + key[1])
       }
+      xhr.setRequestHeader("content-type", "multipart/form-data;;");
       //xhr.setRequestHeader("content-type", "multipart/form-data;");
       //xhr.setRequestHeader("content-type", "text/plain;charset=UTF-8");
       //xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
-      formData.append('UUID', "123456789");   
+      //xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+      //formData.append('UUID', "123456789");   
       xhr.send(formData);
   }
 

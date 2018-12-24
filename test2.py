@@ -6,6 +6,7 @@ import redis
 from gevent.queue import Queue
 from flask import Flask, render_template, send_from_directory, request, redirect, flash, url_for,jsonify
 from flask_sockets import Sockets
+from werkzeug.datastructures import ImmutableMultiDict
 from datetime import datetime, timedelta
 
 from BackEnd import BackEndProcess
@@ -21,13 +22,17 @@ sockets = Sockets(app)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        data = request.get_data()
+        print("request.content_type=%s" %  request.content_type)
+        data = dict(request.form)
+        #data =  request.get_data()
         #print("GOT POST")
         #result = request.form
         #data = request.form.get("filecontent",default="")
         #print(data)
         #file1 = request.files['file']
-        print(data)
+        print(data.keys())
+        for key in data.keys():
+            print(key)
         #print(request.form.get("UUID"))
         return jsonify({'msg': 'success'})
     elif request.method == 'GET':

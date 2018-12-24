@@ -33,6 +33,7 @@ def index():
         print(data.keys())
         for key in data.keys():
             print(key)
+            print(data[key])
         #print(request.form.get("UUID"))
         return jsonify({'msg': 'success'})
     elif request.method == 'GET':

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 import os
 import json
 import gevent
@@ -7,6 +8,7 @@ from gevent.queue import Queue
 from flask import Flask, render_template, send_from_directory, request, redirect, flash, url_for,jsonify
 from flask_sockets import Sockets
 from werkzeug.datastructures import ImmutableMultiDict
+import urllib 
 from datetime import datetime, timedelta
 
 from BackEnd import BackEndProcess
@@ -22,18 +24,26 @@ sockets = Sockets(app)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        print("request.content_type=%s" %  request.content_type)
-        data = dict(request.form)
+        for h in request.headers:
+            print(h)
+        xfilename = request.headers.get('X-Filename')
+        filename = urllib.unquote(xfilename.encode('ascii')).decode('utf-8')
+        print("Filename: %s" % filename)
+        with open("./"+filename, "wb") as fo:
+          fo.write(request.get_data())
+        #print(request.get_data())
+        #print("request.content_type=%s" %  request.content_type)
+        #data = dict(request.form)
         #data =  request.get_data()
         #print("GOT POST")
         #result = request.form
         #data = request.form.get("filecontent",default="")
         #print(data)
         #file1 = request.files['file']
-        print(data.keys())
-        for key in data.keys():
-            print(key)
-            print(data[key])
+        #print(data.keys())
+        #for key in data.keys():
+        #    print(key)
+        #    print(data[key])
         #print(request.form.get("UUID"))
         return jsonify({'msg': 'success'})
     elif request.method == 'GET':
@@ -73,7 +83,6 @@ def login():
     flash('1You CANT logged in')
     #print(url_for('indexx'))
     return redirect(url_for('index'))
-
 
 bep=BackEndProcess()
 bep.start()

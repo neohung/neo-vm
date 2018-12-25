@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+  <body>
+ <h1> TEST </h1>
+   <div id="holder" style="border: 10px dashed #ccc; border-color #000000; width: 300px; min-height    : 300px; margin: 20px auto;">
+   </div>
+   <p id="upload" class="hidden"><label>SELECT<br><input type="file"></label></p>
+   <p>BAR: <progress id="uploadprogress" max="100" value="0">0</progress></p>
+  </body>
+
+<script>
+
+  var holder = document.getElementById('holder')
+  var tests = {
+      filereader: typeof FileReader != 'undefined',
+      formdata: !!window.FormData,
+      //dnd return true if draggable
+      dnd: 'draggable' in document.createElement('span'),
+      progress: "upload" in new XMLHttpRequest
+  }
+  var progress = document.getElementById('uploadprogress')
+  var fileupload = document.getElementById('upload');
+
+  var acceptedTypes = {
+      'image/png': true,
+      'image/jpeg': true,
+      'image/gif': true
+  }
+  
+  
+  if (tests.dnd) { 
+    holder.ondragenter = function () {  
+                        this.className = ''; 
+                        this.style.backgroundColor = "#FFFFFF";
+                        this.style.borderColor = "#aaaaee";
+                        return false; 
+                      };
+
+    holder.ondragover = function () {  
+                        //this.className = 'hover'; 
+                        //this.style.backgroundColor = "#D93600";
+                        return false; 
+                      };
+    holder.ondragleave =  function () {
+                        this.className = '';
+                        this.style.backgroundColor = "#FFFFFF";
+                        this.style.borderColor = "#000000";
+
+                        return false; 
+                      };
+
+    holder.ondragend = function () {  console.log("ondragend");this.className = ''; return false; };
+    holder.ondrop = function (e) {
+      this.className = '';
+      e.preventDefault();
+      readfiles(e.dataTransfer.files);
+    }
+  }
+
+  fileupload.className = 'hidden';
+  fileupload.querySelector('input').onchange = function () {
+    readfiles(this.files);
+  }
+
+  function encode(input) {
+    console.log("input length: " + input.length)
+    var keyStr =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    var output = "";
+    var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+    var i = 0;
+    while (i < input.length) {
+      chr1 = input[i++];
+      chr2 = i < input.length ? input[i++] : Number.NaN;
+      chr3 = i < input.length ? input[i++] : Number.NaN;
+      enc1= chr1 >> 2;         
+      enc2= ((chr1 & 3) << 4) | (chr2 >> 4);   
+      enc3= ((chr2 & 15) << 2) | (chr3 >> 6);   
+      enc4= chr3 & 63;     
+      if (isNaN(chr2)) {
+        enc3 = enc4 = 64;
+      } else if (isNaN(chr3)) {
+        enc4 = 64; 
+      }             
+      output += keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+                keyStr.charAt(enc3) + keyStr.charAt(enc4);
+    }
+    return output;
+  }
+
+  function readfiles(files) {
+    var body = document.body
+    for (var i = 0; i < files.length; i++) {
+      data=files[i]
+      console.log(data.name)
+      console.log(data.size)
+      var fileReader = new FileReader();
+      fileReader.onload = function (event) {
+          body.append(data.name +"<br>" +event.target.result)
+      };
+      fileReader.readAsDataURL(files[i]);
+    }
+  }
+  
+  console.log("AAAAAA")
+  //const buffer = new ArrayBuffer(16);
+  //buffer[0] = "C" 
+  //console.log(encode(new Uint8Array(buffer)))
+  console.log("BBBBB")
+</script>
+
+
+</html>

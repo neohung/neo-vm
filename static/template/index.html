@@ -179,13 +179,11 @@ function readfiles(files) {
       //xhr.setRequestHeader("content-type", "multipart/form-data;");
       //xhr.setRequestHeader("content-type", "text/plain;charset=UTF-8");
       //xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+      //xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+      xhr.setRequestHeader("X-FILENAME", encodeURIComponent(files[0].name));
       formData.append('UUID', "123456789");   
-      formData.append('filecontent', JSON.stringify(obj));   
-      xhr.send(formData);
-      aaaa=encode(new Uint8Array(files[0]))
-      console.log(aaaa)
-      //xhr.send(body);
+      formData.append('filecontent', files[0]);   
+      xhr.send(files[0]);
   }
 
 }

@@ -29,22 +29,6 @@ def index():
         xfilename = request.headers.get('X-Filename')
         filename = urllib.unquote(xfilename.encode('ascii')).decode('utf-8')
         print("Filename: %s" % filename)
-        with open("./"+filename, "wb") as fo:
-          fo.write(request.get_data())
-        #print(request.get_data())
-        #print("request.content_type=%s" %  request.content_type)
-        #data = dict(request.form)
-        #data =  request.get_data()
-        #print("GOT POST")
-        #result = request.form
-        #data = request.form.get("filecontent",default="")
-        #print(data)
-        #file1 = request.files['file']
-        #print(data.keys())
-        #for key in data.keys():
-        #    print(key)
-        #    print(data[key])
-        #print(request.form.get("UUID"))
         return jsonify({'msg': 'success'})
     elif request.method == 'GET':
         data = {'btn':0,'y':0,'x':0,'dx':0,'dy':0,'keycode': 0}
@@ -77,6 +61,15 @@ def receive(ws):
             #print(redis_server.get('test'))
         gevent.sleep(0.1)
 
+@sockets.route('/phone')
+def phonews(ws):
+    while not ws.closed:
+        message = ws.receive()
+        if not (message is None):
+            print(message)
+        gevent.sleep(0.1)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     flash('2You CANT logged in')
@@ -84,7 +77,14 @@ def login():
     #print(url_for('indexx'))
     return redirect(url_for('index'))
 
-bep=BackEndProcess()
+
+class neoBackEndProcess(BackEndProcess):
+    def run(self):
+        while True:
+            now = (datetime.utcnow()+timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
+            gevent.sleep(1)
+
+bep=neoBackEndProcess()
 bep.start()
 
 if __name__ == "__main__":
